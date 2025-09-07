@@ -125,6 +125,11 @@
             font-weight: bold;
         }
         
+        .unavailable {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
         .booking-form {
             background-color: white;
             padding: 25px;
@@ -281,6 +286,12 @@
             color: #7f8c8d;
         }
         
+        .error-message {
+            color: #e74c3c;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
             .ruangan-list {
                 grid-template-columns: 1fr;
@@ -318,6 +329,7 @@
         <div class="info">
             <p><strong>Informasi:</strong> Setiap sesi booking memiliki jeda 5 menit untuk setup dan bersih-bersih.</p>
             <p>Harga: PS4 - Rp 25.000/jam, PS5 - Rp 35.000/jam</p>
+            <p class="unavailable">Booking hanya dapat dilakukan untuk hari ini dan besok saja.</p>
         </div>
         
         <h2>Daftar Ruangan</h2>
@@ -333,6 +345,11 @@
             </div>
             
             <div class="form-group">
+                <label for="hp">No. HP (Opsional):</label>
+                <input type="text" id="hp" placeholder="Masukkan nomor HP">
+            </div>
+            
+            <div class="form-group">
                 <label for="ruangan">Pilih Ruangan:</label>
                 <select id="ruangan">
                     <option value="">-- Pilih Ruangan --</option>
@@ -343,6 +360,7 @@
             <div class="form-group">
                 <label for="tanggal">Tanggal Booking:</label>
                 <input type="date" id="tanggal">
+                <div class="error-message" id="tanggalError"></div>
             </div>
             
             <div class="form-group">
@@ -351,6 +369,7 @@
                     <option value="">-- Pilih Jam Mulai --</option>
                     <!-- Opsi jam akan diisi oleh JavaScript -->
                 </select>
+                <div class="error-message" id="jamError"></div>
             </div>
             
             <div class="form-group">
@@ -387,6 +406,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Pemesan</th>
+                        <th>No. HP</th>
                         <th>Ruangan</th>
                         <th>Tanggal</th>
                         <th>Waktu</th>
@@ -412,6 +432,10 @@
             <div class="form-group">
                 <label for="editNama">Nama Pemesan:</label>
                 <input type="text" id="editNama">
+            </div>
+            <div class="form-group">
+                <label for="editHp">No. HP (Opsional):</label>
+                <input type="text" id="editHp">
             </div>
             <div class="form-group">
                 <label for="editRuangan">Ruangan:</label>
@@ -443,7 +467,7 @@
     </div>
     
     <footer>
-        <p>&copy; 2025 Booking Ruangan PlayStation. All rights reserved.</p>
+        <p>&copy; 2023 Booking Ruangan PlayStation. All rights reserved.</p>
     </footer>
 
     <script>
@@ -460,9 +484,9 @@
             
             // Data booking (disimpan di localStorage)
             let bookings = JSON.parse(localStorage.getItem('bookings')) || [
-                { id: 1, ruanganId: 1, nama: 'Rendy', tanggal: new Date().toISOString().split('T')[0], jamMulai: '10:00', jamSelesai: '12:00', durasi: 2, totalHarga: 50000 },
-                { id: 2, ruanganId: 1, nama: 'Cia', tanggal: new Date().toISOString().split('T')[0], jamMulai: '12:05', jamSelesai: '15:05', durasi: 3, totalHarga: 75000 },
-                { id: 3, ruanganId: 4, nama: 'Andi', tanggal: new Date().toISOString().split('T')[0], jamMulai: '14:00', jamSelesai: '16:00', durasi: 2, totalHarga: 70000 }
+                { id: 1, ruanganId: 1, nama: 'Rendy', hp: '08123456789', tanggal: new Date().toISOString().split('T')[0], jamMulai: '10:00', jamSelesai: '12:00', durasi: 2, totalHarga: 50000 },
+                { id: 2, ruanganId: 1, nama: 'Cia', hp: '087654321', tanggal: new Date().toISOString().split('T')[0], jamMulai: '12:05', jamSelesai: '15:05', durasi: 3, totalHarga: 75000 },
+                { id: 3, ruanganId: 4, nama: 'Andi', hp: '', tanggal: new Date().toISOString().split('T')[0], jamMulai: '14:00', jamSelesai: '16:00', durasi: 2, totalHarga: 70000 }
             ];
             
             // Simpan ke localStorage
@@ -472,10 +496,18 @@
             let isKasirLoggedIn = false;
             
             // Set tanggal minimum ke hari ini
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('tanggal').setAttribute('min', today);
-            document.getElementById('tanggal').value = today;
-            document.getElementById('filterTanggal').value = today;
+            const today = new Date();
+            const todayFormatted = today.toISOString().split('T')[0];
+            
+            // Set tanggal maksimum ke besok
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+            
+            document.getElementById('tanggal').setAttribute('min', todayFormatted);
+            document.getElementById('tanggal').setAttribute('max', tomorrowFormatted);
+            document.getElementById('tanggal').value = todayFormatted;
+            document.getElementById('filterTanggal').value = todayFormatted;
             
             // Generate opsi jam (08:00 - 23:00)
             const jamSelect = document.getElementById('jamMulai');
@@ -509,7 +541,7 @@
                     const card = document.createElement('div');
                     card.className = `ruangan-card ${r.jenis.toLowerCase()}`;
                     
-                    const bookingForThisRoom = bookings.filter(b => b.ruanganId === r.id && b.tanggal === today);
+                    const bookingForThisRoom = bookings.filter(b => b.ruanganId === r.id && b.tanggal === todayFormatted);
                     
                     let statusHTML = '<p class="available">Tersedia</p>';
                     if (bookingForThisRoom.length > 0) {
@@ -519,7 +551,7 @@
                                 <div class="booking-item">
                                     <div>
                                         <strong>${booking.jamMulai} - ${booking.jamSelesai}</strong><br>
-                                        ${booking.nama}
+                                        ${booking.nama} ${booking.hp ? `(${booking.hp})` : ''}
                                     </div>
                                     ${isKasirLoggedIn ? `
                                     <div class="booking-actions">
@@ -573,6 +605,19 @@
                 }
             }
             
+            // Validasi tanggal (hanya hari ini dan besok untuk client)
+            document.getElementById('tanggal').addEventListener('change', function() {
+                const selectedDate = this.value;
+                const tanggalError = document.getElementById('tanggalError');
+                
+                if (!isKasirLoggedIn && selectedDate !== todayFormatted && selectedDate !== tomorrowFormatted) {
+                    tanggalError.textContent = 'Booking hanya dapat dilakukan untuk hari ini dan besok saja.';
+                    this.value = todayFormatted;
+                } else {
+                    tanggalError.textContent = '';
+                }
+            });
+            
             // Hitung harga
             document.getElementById('btnHitung').addEventListener('click', function() {
                 const ruanganId = document.getElementById('ruangan').value;
@@ -589,16 +634,49 @@
                 document.getElementById('harga').textContent = totalHarga.toLocaleString('id-ID');
             });
             
+            // Fungsi untuk memeriksa bentrok jam
+            function cekBentrokJam(ruanganId, tanggal, jamMulai, durasi, excludeBookingId = null) {
+                const jamMulaiHour = parseInt(jamMulai.split(':')[0]);
+                const jamSelesai = `${jamMulaiHour + parseInt(durasi)}:05`;
+                
+                for (const booking of bookings) {
+                    if (booking.id === excludeBookingId) continue;
+                    
+                    if (booking.ruanganId == ruanganId && booking.tanggal === tanggal) {
+                        const bookingJamMulai = parseInt(booking.jamMulai.split(':')[0]);
+                        const bookingJamSelesai = parseInt(booking.jamSelesai.split(':')[0]);
+                        
+                        // Cek apakah ada bentrok
+                        if (
+                            (jamMulaiHour >= bookingJamMulai && jamMulaiHour < bookingJamSelesai) ||
+                            (jamMulaiHour + parseInt(durasi) > bookingJamMulai && jamMulaiHour + parseInt(durasi) <= bookingJamSelesai) ||
+                            (jamMulaiHour <= bookingJamMulai && jamMulaiHour + parseInt(durasi) >= bookingJamSelesai)
+                        ) {
+                            return `Bentrok dengan booking ${booking.nama} (${booking.jamMulai} - ${booking.jamSelesai})`;
+                        }
+                    }
+                }
+                
+                return null;
+            }
+            
             // Proses booking
             document.getElementById('btnBooking').addEventListener('click', function() {
                 const nama = document.getElementById('nama').value;
+                const hp = document.getElementById('hp').value;
                 const ruanganId = document.getElementById('ruangan').value;
                 const tanggal = document.getElementById('tanggal').value;
                 const jamMulai = document.getElementById('jamMulai').value;
                 const durasi = document.getElementById('durasi').value;
                 
                 if (!nama || !ruanganId || !tanggal || !jamMulai) {
-                    alert('Harap isi semua field!');
+                    alert('Harap isi semua field yang wajib!');
+                    return;
+                }
+                
+                // Validasi tanggal untuk client
+                if (!isKasirLoggedIn && tanggal !== todayFormatted && tanggal !== tomorrowFormatted) {
+                    alert('Booking hanya dapat dilakukan untuk hari ini dan besok saja.');
                     return;
                 }
                 
@@ -607,6 +685,22 @@
                 if (jamMulaiHour < 8 || jamMulaiHour > 23) {
                     alert('Jam booking hanya tersedia antara 08:00 - 24:00');
                     return;
+                }
+                
+                // Validasi durasi
+                if (jamMulaiHour + parseInt(durasi) > 24) {
+                    alert('Booking tidak bisa melebihi jam 24:00');
+                    return;
+                }
+                
+                // Cek bentrok jam
+                const bentrok = cekBentrokJam(ruanganId, tanggal, jamMulai, durasi);
+                if (bentrok) {
+                    document.getElementById('jamError').textContent = bentrok;
+                    alert(`Terjadi bentrok jam: ${bentrok}`);
+                    return;
+                } else {
+                    document.getElementById('jamError').textContent = '';
                 }
                 
                 // Hitung jam selesai (dengan jeda 5 menit)
@@ -622,6 +716,7 @@
                     id: bookings.length > 0 ? Math.max(...bookings.map(b => b.id)) + 1 : 1,
                     ruanganId: parseInt(ruanganId),
                     nama: nama,
+                    hp: hp,
                     tanggal: tanggal,
                     jamMulai: jamMulai,
                     jamSelesai: jamSelesai,
@@ -636,6 +731,7 @@
                 
                 // Reset form
                 document.getElementById('nama').value = '';
+                document.getElementById('hp').value = '';
                 document.getElementById('ruangan').value = '';
                 document.getElementById('jamMulai').value = '';
                 document.getElementById('durasi').value = '1';
@@ -656,6 +752,10 @@
                     document.getElementById('kasirSection').style.display = 'block';
                     document.getElementById('btnKasir').style.display = 'none';
                     document.getElementById('btnLogout').style.display = 'inline-block';
+                    
+                    // Hilangkan batasan tanggal untuk kasir
+                    document.getElementById('tanggal').removeAttribute('max');
+                    
                     tampilkanDataBooking();
                     tampilkanRuangan(); // Refresh untuk menampilkan tombol edit/hapus
                     alert('Login berhasil sebagai kasir!');
@@ -670,6 +770,10 @@
                 document.getElementById('kasirSection').style.display = 'none';
                 document.getElementById('btnKasir').style.display = 'inline-block';
                 document.getElementById('btnLogout').style.display = 'none';
+                
+                // Kembalikan batasan tanggal untuk client
+                document.getElementById('tanggal').setAttribute('max', tomorrowFormatted);
+                
                 tampilkanRuangan(); // Refresh untuk menghilangkan tombol edit/hapus
                 alert('Logout berhasil!');
             });
@@ -681,7 +785,7 @@
             
             // Reset filter
             document.getElementById('btnResetFilter').addEventListener('click', function() {
-                document.getElementById('filterTanggal').value = today;
+                document.getElementById('filterTanggal').value = todayFormatted;
                 tampilkanDataBooking();
             });
             
@@ -699,7 +803,7 @@
                     bookings;
                 
                 if (filteredBookings.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Tidak ada data booking</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Tidak ada data booking</td></tr>';
                     return;
                 }
                 
@@ -719,6 +823,7 @@
                     row.innerHTML = `
                         <td>${index + 1}</td>
                         <td>${booking.nama}</td>
+                        <td>${booking.hp || '-'}</td>
                         <td>${ruanganInfo ? ruanganInfo.nama : 'Tidak Diketahui'}</td>
                         <td>${booking.tanggal}</td>
                         <td>${booking.jamMulai} - ${booking.jamSelesai}</td>
@@ -755,6 +860,7 @@
                 if (!booking) return;
                 
                 document.getElementById('editNama').value = booking.nama;
+                document.getElementById('editHp').value = booking.hp || '';
                 document.getElementById('editRuangan').value = booking.ruanganId;
                 document.getElementById('editTanggal').value = booking.tanggal;
                 document.getElementById('editJamMulai').value = booking.jamMulai;
@@ -780,12 +886,13 @@
                 if (bookingIndex === -1) return;
                 
                 const nama = document.getElementById('editNama').value;
+                const hp = document.getElementById('editHp').value;
                 const tanggal = document.getElementById('editTanggal').value;
                 const jamMulai = document.getElementById('editJamMulai').value;
                 const durasi = parseInt(document.getElementById('editDurasi').value);
                 
                 if (!nama || !tanggal || !jamMulai) {
-                    alert('Harap isi semua field!');
+                    alert('Harap isi semua field yang wajib!');
                     return;
                 }
                 
@@ -793,6 +900,19 @@
                 const jamMulaiHour = parseInt(jamMulai.split(':')[0]);
                 if (jamMulaiHour < 8 || jamMulaiHour > 23) {
                     alert('Jam booking hanya tersedia antara 08:00 - 24:00');
+                    return;
+                }
+                
+                // Validasi durasi
+                if (jamMulaiHour + parseInt(durasi) > 24) {
+                    alert('Booking tidak bisa melebihi jam 24:00');
+                    return;
+                }
+                
+                // Cek bentrok jam (kecuali dengan booking yang sedang diedit)
+                const bentrok = cekBentrokJam(bookings[bookingIndex].ruanganId, tanggal, jamMulai, durasi, bookingId);
+                if (bentrok) {
+                    alert(`Terjadi bentrok jam: ${bentrok}`);
                     return;
                 }
                 
@@ -808,6 +928,7 @@
                 bookings[bookingIndex] = {
                     ...bookings[bookingIndex],
                     nama: nama,
+                    hp: hp,
                     tanggal: tanggal,
                     jamMulai: jamMulai,
                     jamSelesai: jamSelesai,
