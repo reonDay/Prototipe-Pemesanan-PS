@@ -450,6 +450,133 @@
             margin-bottom: 15px;
         }
         
+        /* Food Ordering Styles */
+        .food-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .food-section h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .food-category {
+            margin-bottom: 25px;
+        }
+        
+        .food-category h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .food-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .food-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .food-item:hover {
+            border-color: #3498db;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .food-item.selected {
+            border-color: #27ae60;
+            background-color: #e8f5e9;
+        }
+        
+        .food-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .food-item h4 {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .food-price {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .food-quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .food-quantity button {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .food-quantity input {
+            width: 40px;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .selected-food {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .selected-food h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .selected-food-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .selected-food-item:last-child {
+            border-bottom: none;
+        }
+        
+        .food-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
         @media (max-width: 768px) {
             .ruangan-list {
                 grid-template-columns: 1fr;
@@ -479,6 +606,10 @@
             
             .payment-options {
                 flex-direction: column;
+            }
+            
+            .food-items {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
         }
     </style>
@@ -557,6 +688,123 @@
                 Total Harga: Rp <span id="harga">0</span>
             </div>
             
+            <!-- Bagian Pemesanan Makanan -->
+            <div class="food-section">
+                <h2>Pemesanan Makanan & Minuman</h2>
+                
+                <div class="food-category">
+                    <h3>Makanan</h3>
+                    <div class="food-items">
+                        <div class="food-item" data-id="1" data-name="Nasi Goreng" data-price="25000">
+                    
+                            <h4>Nasi Goreng</h4>
+                            <div class="food-price">Rp 25.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="food-item" data-id="2" data-name="Mie Goreng" data-price="20000">
+
+                            <h4>Mie Goreng</h4>
+                            <div class="food-price">Rp 20.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="food-item" data-id="3" data-name="Ayam Goreng" data-price="30000">
+                          
+                            <h4>Ayam Goreng</h4>
+                            <div class="food-price">Rp 30.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="food-item" data-id="4" data-name="Kentang Goreng" data-price="15000">
+
+                            <h4>Kentang Goreng</h4>
+                            <div class="food-price">Rp 15.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="food-category">
+                    <h3>Minuman</h3>
+                    <div class="food-items">
+                        <div class="food-item" data-id="5" data-name="Es Teh" data-price="8000">
+                        
+                            <h4>Es Teh</h4>
+                            <div class="food-price">Rp 8.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="food-item" data-id="6" data-name="Jus Jeruk" data-price="12000">
+                            
+                            <h4>Jus Jeruk</h4>
+                            <div class="food-price">Rp 12.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="food-item" data-id="7" data-name="Coca Cola" data-price="10000">
+                        
+                            <h4>Coca Cola</h4>
+                            <div class="food-price">Rp 10.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="food-item" data-id="8" data-name="Air Mineral" data-price="5000">
+                          
+                            <h4>Air Mineral</h4>
+                            <div class="food-price">Rp 5.000</div>
+                            <div class="food-quantity">
+                                <button class="quantity-minus">-</button>
+                                <input type="number" min="0" value="0" class="quantity-input">
+                                <button class="quantity-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="selected-food">
+                    <h3>Pesanan Anda</h3>
+                    <div id="selectedFoodList">
+                        <p class="empty-message">Belum ada makanan/minuman yang dipilih</p>
+                    </div>
+                    <div class="food-total" id="foodTotal">
+                        Total Makanan: Rp 0
+                    </div>
+                </div>
+            </div>
+            
+            <div class="harga" id="grandTotalContainer" style="display: none;">
+                Total Keseluruhan: Rp <span id="grandTotal">0</span>
+            </div>
+            
             <div class="payment-options" id="paymentOptions" style="display: none;">
                 <div class="payment-option xendit" data-method="xendit">
                     <i class="fas fa-credit-card"></i>
@@ -593,6 +841,7 @@
                         <th>Tanggal</th>
                         <th>Waktu</th>
                         <th>Durasi</th>
+                        <th>Makanan</th>
                         <th>Total Harga</th>
                         <th>Status Pembayaran</th>
                         <th>Aksi</th>
@@ -631,6 +880,10 @@
                     <p id="pendapatanPS5">PS5: Rp 0</p>
                 </div>
                 <div class="insight-card">
+                    <h3>Pendapatan Makanan</h3>
+                    <p id="pendapatanMakanan">Rp 0</p>
+                </div>
+                <div class="insight-card">
                     <h3>Metode Pembayaran</h3>
                     <p id="paymentXendit">Xendit: 0</p>
                     <p id="paymentCash">Cash: 0</p>
@@ -658,6 +911,7 @@
                         <th>Tanggal</th>
                         <th>Waktu</th>
                         <th>Durasi</th>
+                        <th>Makanan</th>
                         <th>Total Harga</th>
                         <th>Status Pembayaran</th>
                     </tr>
@@ -815,11 +1069,73 @@
                 { id: 6, nama: 'Ruang PS5 3', jenis: 'PS5', harga: 35000 }
             ];
             
+            // Data menu makanan
+            const menuMakanan = [
+                { id: 1, nama: 'Nasi Goreng', harga: 25000, kategori: 'makanan' },
+                { id: 2, nama: 'Mie Goreng', harga: 20000, kategori: 'makanan' },
+                { id: 3, nama: 'Ayam Goreng', harga: 30000, kategori: 'makanan' },
+                { id: 4, nama: 'Kentang Goreng', harga: 15000, kategori: 'makanan' },
+                { id: 5, nama: 'Es Teh', harga: 8000, kategori: 'minuman' },
+                { id: 6, nama: 'Jus Jeruk', harga: 12000, kategori: 'minuman' },
+                { id: 7, nama: 'Coca Cola', harga: 10000, kategori: 'minuman' },
+                { id: 8, nama: 'Air Mineral', harga: 5000, kategori: 'minuman' }
+            ];
+            
             // Data booking (disimpan di localStorage)
             let bookings = JSON.parse(localStorage.getItem('bookings')) || [
-                { id: 1, ruanganId: 1, nama: 'Rendy', hp: '08123456789', tanggal: new Date().toISOString().split('T')[0], jamMulai: '10:00', jamSelesai: '12:00', durasi: 2, totalHarga: 50000, paymentMethod: 'cash', paymentStatus: 'paid' },
-                { id: 2, ruanganId: 1, nama: 'Cia', hp: '087654321', tanggal: new Date().toISOString().split('T')[0], jamMulai: '12:05', jamSelesai: '15:05', durasi: 3, totalHarga: 75000, paymentMethod: 'xendit', paymentStatus: 'paid' },
-                { id: 3, ruanganId: 4, nama: 'Andi', hp: '', tanggal: new Date().toISOString().split('T')[0], jamMulai: '14:00', jamSelesai: '16:00', durasi: 2, totalHarga: 70000, paymentMethod: 'cash', paymentStatus: 'pending' }
+                { 
+                    id: 1, 
+                    ruanganId: 1, 
+                    nama: 'Rendy', 
+                    hp: '08123456789', 
+                    tanggal: new Date().toISOString().split('T')[0], 
+                    jamMulai: '10:00', 
+                    jamSelesai: '12:00', 
+                    durasi: 2, 
+                    totalHarga: 50000, 
+                    foodOrders: [
+                        { id: 1, name: 'Nasi Goreng', price: 25000, quantity: 1 },
+                        { id: 5, name: 'Es Teh', price: 8000, quantity: 2 }
+                    ],
+                    foodTotal: 41000,
+                    grandTotal: 91000,
+                    paymentMethod: 'cash', 
+                    paymentStatus: 'paid' 
+                },
+                { 
+                    id: 2, 
+                    ruanganId: 1, 
+                    nama: 'Cia', 
+                    hp: '087654321', 
+                    tanggal: new Date().toISOString().split('T')[0], 
+                    jamMulai: '12:05', 
+                    jamSelesai: '15:05', 
+                    durasi: 3, 
+                    totalHarga: 75000, 
+                    foodOrders: [],
+                    foodTotal: 0,
+                    grandTotal: 75000,
+                    paymentMethod: 'xendit', 
+                    paymentStatus: 'paid' 
+                },
+                { 
+                    id: 3, 
+                    ruanganId: 4, 
+                    nama: 'Andi', 
+                    hp: '', 
+                    tanggal: new Date().toISOString().split('T')[0], 
+                    jamMulai: '14:00', 
+                    jamSelesai: '16:00', 
+                    durasi: 2, 
+                    totalHarga: 70000, 
+                    foodOrders: [
+                        { id: 7, name: 'Coca Cola', price: 10000, quantity: 1 }
+                    ],
+                    foodTotal: 10000,
+                    grandTotal: 80000,
+                    paymentMethod: 'cash', 
+                    paymentStatus: 'pending' 
+                }
             ];
             
             // Simpan ke localStorage
@@ -831,6 +1147,7 @@
             let currentUserRole = null;
             let selectedPaymentMethod = null;
             let currentBookingData = null;
+            let selectedFoodItems = [];
             
             // Set tanggal minimum ke hari ini
             const today = new Date();
@@ -868,6 +1185,111 @@
             
             // Tampilkan daftar ruangan
             tampilkanRuangan();
+            
+            // Setup event listener untuk makanan
+            setupFoodOrdering();
+            
+            // Fungsi untuk setup pemesanan makanan
+            function setupFoodOrdering() {
+                // Event listener untuk tombol plus dan minus
+                document.querySelectorAll('.quantity-plus').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const input = this.parentElement.querySelector('.quantity-input');
+                        input.value = parseInt(input.value) + 1;
+                        updateFoodSelection(this.closest('.food-item'));
+                        updateSelectedFoodList();
+                    });
+                });
+                
+                document.querySelectorAll('.quantity-minus').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const input = this.parentElement.querySelector('.quantity-input');
+                        if (parseInt(input.value) > 0) {
+                            input.value = parseInt(input.value) - 1;
+                            updateFoodSelection(this.closest('.food-item'));
+                            updateSelectedFoodList();
+                        }
+                    });
+                });
+                
+                // Event listener untuk input langsung
+                document.querySelectorAll('.quantity-input').forEach(input => {
+                    input.addEventListener('change', function() {
+                        if (parseInt(this.value) < 0) this.value = 0;
+                        updateFoodSelection(this.closest('.food-item'));
+                        updateSelectedFoodList();
+                    });
+                });
+            }
+            
+            // Update seleksi makanan
+            function updateFoodSelection(foodItem) {
+                const id = foodItem.getAttribute('data-id');
+                const name = foodItem.getAttribute('data-name');
+                const price = parseInt(foodItem.getAttribute('data-price'));
+                const quantity = parseInt(foodItem.querySelector('.quantity-input').value);
+                
+                // Hapus item jika sudah ada
+                selectedFoodItems = selectedFoodItems.filter(item => item.id != id);
+                
+                // Tambahkan jika quantity > 0
+                if (quantity > 0) {
+                    selectedFoodItems.push({
+                        id: parseInt(id),
+                        name: name,
+                        price: price,
+                        quantity: quantity
+                    });
+                    foodItem.classList.add('selected');
+                } else {
+                    foodItem.classList.remove('selected');
+                }
+            }
+            
+            // Update daftar makanan yang dipilih
+            function updateSelectedFoodList() {
+                const selectedFoodList = document.getElementById('selectedFoodList');
+                const foodTotalElement = document.getElementById('foodTotal');
+                
+                // Kosongkan daftar
+                selectedFoodList.innerHTML = '';
+                
+                if (selectedFoodItems.length === 0) {
+                    selectedFoodList.innerHTML = '<p class="empty-message">Belum ada makanan/minuman yang dipilih</p>';
+                    foodTotalElement.textContent = 'Total Makanan: Rp 0';
+                    document.getElementById('grandTotalContainer').style.display = 'none';
+                    return;
+                }
+                
+                // Hitung total harga makanan
+                let foodTotal = 0;
+                
+                // Tambahkan setiap item ke daftar
+                selectedFoodItems.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    foodTotal += itemTotal;
+                    
+                    const foodItemElement = document.createElement('div');
+                    foodItemElement.className = 'selected-food-item';
+                    foodItemElement.innerHTML = `
+                        <div>${item.name} (${item.quantity}x)</div>
+                        <div>Rp ${itemTotal.toLocaleString('id-ID')}</div>
+                    `;
+                    
+                    selectedFoodList.appendChild(foodItemElement);
+                });
+                
+                // Update total makanan
+                foodTotalElement.textContent = `Total Makanan: Rp ${foodTotal.toLocaleString('id-ID')}`;
+                
+                // Update grand total jika sudah ada harga ruangan
+                const roomPrice = parseInt(document.getElementById('harga').textContent.replace(/,/g, ''));
+                if (roomPrice > 0) {
+                    const grandTotal = roomPrice + foodTotal;
+                    document.getElementById('grandTotal').textContent = grandTotal.toLocaleString('id-ID');
+                    document.getElementById('grandTotalContainer').style.display = 'block';
+                }
+            }
             
             // Fungsi untuk menampilkan daftar ruangan
             function tampilkanRuangan() {
@@ -976,6 +1398,14 @@
                 const totalHarga = selectedRuangan.harga * durasi;
                 
                 document.getElementById('harga').textContent = totalHarga.toLocaleString('id-ID');
+                
+                // Hitung total makanan
+                const foodTotal = selectedFoodItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+                
+                // Tampilkan grand total
+                const grandTotal = totalHarga + foodTotal;
+                document.getElementById('grandTotal').textContent = grandTotal.toLocaleString('id-ID');
+                document.getElementById('grandTotalContainer').style.display = 'block';
                 
                 // Tampilkan opsi pembayaran
                 document.getElementById('paymentOptions').style.display = 'flex';
@@ -1099,9 +1529,15 @@
                 const jamSelesaiHour = jamMulaiHour + parseInt(durasi);
                 const jamSelesai = `${jamSelesaiHour.toString().padStart(2, '0')}:05`;
                 
-                // Hitung total harga
+                // Hitung total harga ruangan
                 const selectedRuangan = ruangan.find(r => r.id == ruanganId);
-                const totalHarga = selectedRuangan.harga * durasi;
+                const roomTotal = selectedRuangan.harga * durasi;
+                
+                // Hitung total harga makanan
+                const foodTotal = selectedFoodItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+                
+                // Hitung grand total
+                const grandTotal = roomTotal + foodTotal;
                 
                 // Simpan data booking sementara
                 currentBookingData = {
@@ -1113,7 +1549,10 @@
                     jamMulai: jamMulai,
                     jamSelesai: jamSelesai,
                     durasi: parseInt(durasi),
-                    totalHarga: totalHarga,
+                    totalHarga: roomTotal,
+                    foodOrders: [...selectedFoodItems],
+                    foodTotal: foodTotal,
+                    grandTotal: grandTotal,
                     paymentMethod: selectedPaymentMethod,
                     paymentStatus: selectedPaymentMethod === 'cash' ? 'pending' : 'unpaid'
                 };
@@ -1123,7 +1562,7 @@
                     bookings.push(currentBookingData);
                     localStorage.setItem('bookings', JSON.stringify(bookings));
                     
-                    alert(`Booking berhasil!\nAtas nama: ${nama}\nRuangan: ${ruangan.find(r => r.id == ruanganId).nama}\nTanggal: ${tanggal}\nWaktu: ${jamMulai} - ${jamSelesai}\nTotal Harga: Rp ${totalHarga.toLocaleString('id-ID')}\n\nSilakan lakukan pembayaran di tempat.`);
+                    alert(`Booking berhasil!\nAtas nama: ${nama}\nRuangan: ${ruangan.find(r => r.id == ruanganId).nama}\nTanggal: ${tanggal}\nWaktu: ${jamMulai} - ${jamSelesai}\nTotal Harga: Rp ${grandTotal.toLocaleString('id-ID')}\n\nSilakan lakukan pembayaran di tempat.`);
                     
                     // Reset form
                     resetForm();
@@ -1141,8 +1580,8 @@
                 // Jika metode pembayaran Xendit, tampilkan modal pembayaran
                 else if (selectedPaymentMethod === 'xendit') {
                     // Tampilkan modal pembayaran Xendit
-                    document.getElementById('paymentAmount').textContent = `Rp ${totalHarga.toLocaleString('id-ID')}`;
-                    document.getElementById('vaAmount').textContent = `Rp ${totalHarga.toLocaleString('id-ID')}`;
+                    document.getElementById('paymentAmount').textContent = `Rp ${grandTotal.toLocaleString('id-ID')}`;
+                    document.getElementById('vaAmount').textContent = `Rp ${grandTotal.toLocaleString('id-ID')}`;
                     
                     // Generate virtual account number (simulasi)
                     const vaNumber = '88888' + Math.floor(10000 + Math.random() * 90000);
@@ -1211,12 +1650,24 @@
                 document.getElementById('jamMulai').value = '';
                 document.getElementById('durasi').value = '1';
                 document.getElementById('harga').textContent = '0';
+                document.getElementById('grandTotalContainer').style.display = 'none';
                 document.getElementById('paymentOptions').style.display = 'none';
                 
                 // Reset seleksi pembayaran
                 document.querySelectorAll('.payment-option').forEach(opt => {
                     opt.classList.remove('selected');
                 });
+                
+                // Reset makanan
+                document.querySelectorAll('.quantity-input').forEach(input => {
+                    input.value = '0';
+                });
+                document.querySelectorAll('.food-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                selectedFoodItems = [];
+                updateSelectedFoodList();
+                
                 selectedPaymentMethod = null;
                 currentBookingData = null;
             }
@@ -1340,7 +1791,7 @@
                     bookings;
                 
                 if (filteredBookings.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center;">Tidak ada data booking</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="11" style="text-align: center;">Tidak ada data booking</td></tr>';
                     return;
                 }
                 
@@ -1359,6 +1810,12 @@
                     const paymentStatus = booking.paymentStatus === 'paid' ? 'Lunas' : booking.paymentStatus === 'pending' ? 'Menunggu Pembayaran' : 'Belum Bayar';
                     const statusClass = booking.paymentStatus === 'paid' ? 'available' : 'unavailable';
                     
+                    // Format daftar makanan
+                    let foodList = '-';
+                    if (booking.foodOrders && booking.foodOrders.length > 0) {
+                        foodList = booking.foodOrders.map(item => `${item.name} (${item.quantity}x)`).join(', ');
+                    }
+                    
                     row.innerHTML = `
                         <td>${index + 1}</td>
                         <td>${booking.nama}</td>
@@ -1367,7 +1824,8 @@
                         <td>${booking.tanggal}</td>
                         <td>${booking.jamMulai} - ${booking.jamSelesai}</td>
                         <td>${booking.durasi} jam</td>
-                        <td>Rp ${booking.totalHarga.toLocaleString('id-ID')}</td>
+                        <td>${foodList}</td>
+                        <td>Rp ${booking.grandTotal ? booking.grandTotal.toLocaleString('id-ID') : booking.totalHarga.toLocaleString('id-ID')}</td>
                         <td class="${statusClass}">${paymentStatus}</td>
                         <td>
                             <button class="edit-btn action-btn" data-id="${booking.id}">Edit</button>
@@ -1409,7 +1867,7 @@
                 });
                 
                 if (filteredBookings.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Tidak ada data booking</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center;">Tidak ada data booking</td></tr>';
                     return;
                 }
                 
@@ -1427,6 +1885,12 @@
                     const ruanganInfo = ruangan.find(r => r.id === booking.ruanganId);
                     const paymentStatus = booking.paymentStatus === 'paid' ? 'Lunas' : booking.paymentStatus === 'pending' ? 'Menunggu Pembayaran' : 'Belum Bayar';
                     
+                    // Format daftar makanan
+                    let foodList = '-';
+                    if (booking.foodOrders && booking.foodOrders.length > 0) {
+                        foodList = booking.foodOrders.map(item => `${item.name} (${item.quantity}x)`).join(', ');
+                    }
+                    
                     row.innerHTML = `
                         <td>${index + 1}</td>
                         <td>${booking.nama}</td>
@@ -1435,7 +1899,8 @@
                         <td>${booking.tanggal}</td>
                         <td>${booking.jamMulai} - ${booking.jamSelesai}</td>
                         <td>${booking.durasi} jam</td>
-                        <td>Rp ${booking.totalHarga.toLocaleString('id-ID')}</td>
+                        <td>${foodList}</td>
+                        <td>Rp ${booking.grandTotal ? booking.grandTotal.toLocaleString('id-ID') : booking.totalHarga.toLocaleString('id-ID')}</td>
                         <td>${paymentStatus}</td>
                     `;
                     
@@ -1455,7 +1920,7 @@
                 
                 // Hitung total pendapatan
                 const totalPendapatan = filteredBookings.reduce((total, booking) => {
-                    return booking.paymentStatus === 'paid' ? total + booking.totalHarga : total;
+                    return booking.paymentStatus === 'paid' ? total + (booking.grandTotal || booking.totalHarga) : total;
                 }, 0);
                 document.getElementById('totalPendapatan').textContent = `Rp ${totalPendapatan.toLocaleString('id-ID')}`;
                 
@@ -1501,6 +1966,12 @@
                 document.getElementById('pendapatanPS4').textContent = `PS4: Rp ${pendapatanPS4.toLocaleString('id-ID')}`;
                 document.getElementById('pendapatanPS5').textContent = `PS5: Rp ${pendapatanPS5.toLocaleString('id-ID')}`;
                 
+                // Pendapatan makanan
+                const pendapatanMakanan = filteredBookings.reduce((total, booking) => {
+                    return booking.paymentStatus === 'paid' ? total + (booking.foodTotal || 0) : total;
+                }, 0);
+                document.getElementById('pendapatanMakanan').textContent = `Rp ${pendapatanMakanan.toLocaleString('id-ID')}`;
+                
                 // Metode pembayaran
                 const paymentMethods = {
                     xendit: 0,
@@ -1534,21 +2005,27 @@
                 
                 // Buat header CSV
                 let csvContent = "Data Booking Ruangan PlayStation\n\n";
-                csvContent += "No,Nama Pemesan,No HP,Ruangan,Tanggal,Waktu,Durasi (jam),Total Harga,Status Pembayaran,Metode Pembayaran\n";
+                csvContent += "No,Nama Pemesan,No HP,Ruangan,Tanggal,Waktu,Durasi (jam),Makanan/Minuman,Total Harga,Status Pembayaran,Metode Pembayaran\n";
                 
                 // Tambahkan data booking
-filteredBookings.forEach((booking, index) => {
-    const ruanganInfo = ruangan.find(r => r.id === booking.ruanganId);
-    const namaRuangan = ruanganInfo ? ruanganInfo.nama : 'Tidak Diketahui';
-    const paymentStatus = booking.paymentStatus === 'paid'
-        ? 'Lunas'
-        : booking.paymentStatus === 'pending'
-            ? 'Menunggu Pembayaran'
-            : 'Belum Bayar';
-    const paymentMethod = booking.paymentMethod === 'xendit' ? 'Xendit' : 'Cash';
-    
-    csvContent += `${index + 1},${booking.nama},${booking.hp || ''},${namaRuangan},${booking.tanggal},${booking.jamMulai} - ${booking.jamSelesai},${booking.durasi},${booking.totalHarga},${paymentStatus},${paymentMethod}\n`;
-});
+                filteredBookings.forEach((booking, index) => {
+                    const ruanganInfo = ruangan.find(r => r.id === booking.ruanganId);
+                    const namaRuangan = ruanganInfo ? ruanganInfo.nama : 'Tidak Diketahui';
+                    const paymentStatus = booking.paymentStatus === 'paid'
+                        ? 'Lunas'
+                        : booking.paymentStatus === 'pending'
+                            ? 'Menunggu Pembayaran'
+                            : 'Belum Bayar';
+                    const paymentMethod = booking.paymentMethod === 'xendit' ? 'Xendit' : 'Cash';
+                    
+                    // Format daftar makanan
+                    let foodList = '-';
+                    if (booking.foodOrders && booking.foodOrders.length > 0) {
+                        foodList = booking.foodOrders.map(item => `${item.name} (${item.quantity}x)`).join('; ');
+                    }
+                    
+                    csvContent += `${index + 1},${booking.nama},${booking.hp || ''},${namaRuangan},${booking.tanggal},${booking.jamMulai} - ${booking.jamSelesai},${booking.durasi},"${foodList}",${booking.grandTotal || booking.totalHarga},${paymentStatus},${paymentMethod}\n`;
+                });
 
                 // Buat file dan download
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
